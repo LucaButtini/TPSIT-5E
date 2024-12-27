@@ -1,0 +1,12 @@
+# Include only .cs and .exe file
+
+*.pdb
+*.cache
+*.txt
+*.csproj
+*.config
+*.sln
+*.vs/
+*Properties/
+*obj/
+**/.vscode/
