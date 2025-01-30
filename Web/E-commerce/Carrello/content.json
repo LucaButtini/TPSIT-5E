@@ -1,0 +1,46 @@
+{
+    "navbar": {
+        "brand": "E-COMMERCE",
+        "links": [
+            {
+                "name": "Home",
+                "href": "#"
+            },
+            {
+                "name": "Prodotti",
+                "href": "../E-commerce/prodotto.html"
+            },
+            {
+                "name": "Archivio",
+                "href": "../E-commerce/archivio.html"
+            },
+            {
+                "name": "Carrello",
+                "href": "../E-commerce/carrello.html",
+                "active": true
+            }
+        ]
+    },
+    "cartPage": {
+        "title": "Il Tuo Carrello",
+        "items": [
+            {
+                "title": "Prodotto 1",
+                "price": "€29,99",
+                "quantity": 2,
+                "total": "€59,98"
+            },
+            {
+                "title": "Prodotto 2",
+                "price": "€39,99",
+                "quantity": 1,
+                "total": "€39,99"
+            }
+        ],
+        "total": "€99,97"
+    },
+    "footer": {
+        "author": "Buttini Luca 5-E",
+        "copyright": "&copy; 2025 E-Commerce. All rights reserved."
+    }
+}
