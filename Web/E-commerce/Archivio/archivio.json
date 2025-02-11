@@ -1,0 +1,28 @@
+{
+  "archivePage": {
+    "title": "Archivio Prodotti",
+    "products": [
+      {
+        "id": "1",
+        "name": "Prodotto 1",
+        "price": "€29,99",
+        "image": "../Immagini/p1.webp",
+        "description": "Descrizione breve del prodotto 1."
+      },
+      {
+        "id": "2",
+        "name": "Prodotto 2",
+        "price": "€49,99",
+        "image": "../Immagini/p1.webp",
+        "description": "Descrizione breve del prodotto 2."
+      },
+      {
+        "id": "3",
+        "name": "Prodotto 3",
+        "price": "€49,99",
+        "image": "../Immagini/p1.webp",
+        "description": "Descrizione breve del prodotto 3."
+      }
+    ]
+  }
+}

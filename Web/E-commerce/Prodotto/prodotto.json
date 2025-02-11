@@ -1,39 +1,26 @@
 {
-    "navbar": {
-      "brand": "E-COMMERCE",
-      "links": [
-        { "name": "Home", "href": "#" },
-        { "name": "Prodotti", "href": "../Prodotto/prodotto.html", "active": true },
-        { "name": "Archivio", "href": "../Archivio/archivio.html" },
-        { "name": "Carrello", "href": "../Carrello/carrello.html" }
-      ]
-    },
-    "productPage": {
-      "title": "Esempio Prodotto",
-      "code": "Codice: #12345",
-      "price": "€49,99",
-      "description": "Questo è un prodotto di alta qualità perfetto per le tue esigenze. È realizzato con materiali resistenti e offre un design moderno e funzionale.",
-      "detailedDescription": "Questo prodotto è stato progettato per soddisfare le esigenze dei nostri clienti. La sua versatilità lo rende adatto a diverse situazioni, garantendo comfort e durata. È disponibile in diverse varianti per adattarsi ai tuoi gusti.",
-      "quantityLabel": "Quantità:",
-      "addToCartButton": "Aggiungi al Carrello",
-      "descriptionTitle": "Descrizione Prodotto",
-      "reviewsTitle": "Recensioni Clienti",
-      "reviews": [
-        {
-          "author": "Mario Rossi",
-          "rating": "★★★★★",
-          "content": "Prodotto eccellente! Lo consiglio vivamente."
-        },
-        {
-          "author": "Lucia Bianchi",
-          "rating": "★★★★☆",
-          "content": "Buona qualità, ma la consegna ha impiegato più tempo del previsto."
-        }
-      ]
-    },
-    "footer": {
-      "author": "Buttini Luca 5-E",
-      "copyright": "&copy; 2025 E-Commerce. All rights reserved."
-    }
+  "productPage": {
+    "title": "Esempio Prodotto",
+    "code": "Codice: #12345",
+    "price": "€49,99",
+    "description": "Questo è un prodotto di alta qualità perfetto per le tue esigenze. È realizzato con materiali resistenti e offre un design moderno e funzionale.",
+    "detailedDescription": "Questo prodotto è stato progettato per soddisfare le esigenze dei nostri clienti. La sua versatilità lo rende adatto a diverse situazioni, garantendo comfort e durata. È disponibile in diverse varianti per adattarsi ai tuoi gusti.",
+    "quantityLabel": "Quantità:",
+    "addToCartButton": "Aggiungi al Carrello",
+    "descriptionTitle": "Descrizione Prodotto",
+    "reviewsTitle": "Recensioni Clienti",
+    "image": "../Immagini/p1.webp",
+    "reviews": [
+      {
+        "author": "Mario Rossi",
+        "rating": "★★★★★",
+        "content": "Prodotto eccellente! Lo consiglio vivamente."
+      },
+      {
+        "author": "Lucia Bianchi",
+        "rating": "★★★★☆",
+        "content": "Buona qualità, ma la consegna ha impiegato più tempo del previsto."
+      }
+    ]
   }
-  
+}

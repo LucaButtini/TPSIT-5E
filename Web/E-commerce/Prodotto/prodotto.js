@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    fetch("prodotto.json")
+  fetch("prodotto.json")
       .then((response) => {
         if (!response.ok) {
           throw new Error(`Errore nel caricamento del JSON: ${response.statusText}`);
@@ -7,54 +7,41 @@ document.addEventListener("DOMContentLoaded", () => {
         return response.json();
       })
       .then((data) => {
-        populatePage(data);
+        populateProductPage(data.productPage);
       })
       .catch((error) => {
         console.error("Errore:", error);
       });
-  });
-  
-  function populatePage(data) {
-    const productData = data.productPage;
-  
-    // Navbar
-    document.getElementById("navbar-brand").textContent = data.navbar.brand;
-    const navbarLinks = document.getElementById("navbar-links");
-    data.navbar.links.forEach((link) => {
-      const li = document.createElement("li");
-      li.className = "nav-item";
-      li.innerHTML = `<a class="nav-link ${link.active ? "active" : ""}" href="${link.href}">${link.name}</a>`;
-      navbarLinks.appendChild(li);
-    });
-  
-    // Product Details
-    document.getElementById("product-title").textContent = productData.title;
-    document.getElementById("product-code").textContent = productData.code;
-    document.getElementById("product-price").textContent = productData.price;
-    document.getElementById("product-description").textContent = productData.description;
-    document.getElementById("quantity-label").textContent = productData.quantityLabel;
-    document.getElementById("add-to-cart-button").textContent = productData.addToCartButton;
-  
-    // Detailed Description and Titles
-    document.getElementById("description-title").textContent = productData.descriptionTitle;
-    document.getElementById("detailed-description").textContent = productData.detailedDescription;
-  
-    // Reviews Section
-    document.getElementById("reviews-title").textContent = productData.reviewsTitle;
-    const reviewsContainer = document.getElementById("reviews");
-    reviewsContainer.innerHTML = ""; // Clear existing content if any
-    productData.reviews.forEach((review) => {
-      const reviewDiv = document.createElement("div");
-      reviewDiv.className = "border p-3 mb-3";
-      reviewDiv.innerHTML = `
-        <p><strong>${review.author}</strong> <span class="text-warning">${review.rating}</span></p>
-        <p>${review.content}</p>
-      `;
-      reviewsContainer.appendChild(reviewDiv);
-    });
-  
-    // Footer
-    document.getElementById("footer-author").textContent = data.footer.author;
-    document.getElementById("footer-copyright").innerHTML = data.footer.copyright;
+});
+
+function populateProductPage(product) {
+  document.getElementById("product-title").textContent = product.title;
+  document.getElementById("product-code").textContent = product.code;
+  document.getElementById("product-price").textContent = product.price;
+  document.getElementById("product-description").textContent = product.description;
+  document.getElementById("quantity-label").textContent = product.quantityLabel;
+  document.getElementById("add-to-cart-button").textContent = product.addToCartButton;
+  document.getElementById("description-title").textContent = product.descriptionTitle;
+  document.getElementById("detailed-description").textContent = product.detailedDescription;
+  document.getElementById("reviews-title").textContent = product.reviewsTitle;
+
+  // Aggiungi l'immagine del prodotto
+  const imgElement = document.querySelector("img[alt='Immagine Prodotto']");
+  if (imgElement) {
+    imgElement.src = product.image;
+    imgElement.alt = product.title;
   }
-  
+
+  // Aggiungi le recensioni
+  const reviewsContainer = document.getElementById("reviews");
+  product.reviews.forEach((review) => {
+    const reviewElement = document.createElement("div");
+    reviewElement.classList.add("mb-3", "p-3", "border", "rounded-3", "bg-light");
+    reviewElement.innerHTML = `
+      <h5>${review.author}</h5>
+      <p>${review.rating}</p>
+      <p>${review.content}</p>
+    `;
+    reviewsContainer.appendChild(reviewElement);
+  });
+}

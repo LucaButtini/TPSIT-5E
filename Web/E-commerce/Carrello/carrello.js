@@ -1,56 +1,44 @@
 document.addEventListener("DOMContentLoaded", () => {
-  fetch("cart.json")
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`Errore nel caricamento del JSON: ${response.statusText}`);
-      }
-      return response.json();
-    })
-    .then((data) => {
-      populateCartPage(data);
-    })
-    .catch((error) => {
-      console.error("Errore:", error);
-    });
+    fetch("carrello.json")
+        .then(response => {
+            if (!response.ok) throw new Error("Errore nel caricamento del JSON");
+            return response.json();
+        })
+        .then(data => populateCartPage(data.cartPage))
+        .catch(error => console.error("Errore:", error));
 });
 
-function populateCartPage(data) {
-  const cartData = data.cartPage;
+function populateCartPage(cart) {
+    document.getElementById("cart-title").textContent = cart.title;
+    const cartItemsContainer = document.getElementById("cart-items");
+    let total = 0;
 
-  // Navbar
-  document.getElementById("navbar-brand").textContent = data.navbar.brand;
-  const navbarLinks = document.getElementById("navbar-links");
-  data.navbar.links.forEach((link) => {
-    const li = document.createElement("li");
-    li.className = "nav-item";
-    li.innerHTML = `<a class="nav-link ${link.active ? "active" : ""}" href="${link.href}">${link.name}</a>`;
-    navbarLinks.appendChild(li);
-  });
+    cart.items.forEach(item => {
+        const itemTotal = item.price * item.quantity;
+        total += itemTotal;
 
-  // Cart Title
-  document.getElementById("cart-title").textContent = cartData.title;
-
-  // Cart Items
-  const cartItems = document.getElementById("cart-items");
-  cartData.items.forEach((item) => {
-    const row = document.createElement("div");
-    row.className = "row mb-3";
-    row.innerHTML = `
-      <div class="col-md-6">
-        <h5>${item.title}</h5>
-        <p>€${item.price} x ${item.quantity}</p>
-      </div>
-      <div class="col-md-6 text-end">
-        <h5>Totale: €${item.total}</h5>
+        const itemElement = document.createElement("div");
+        itemElement.className = "card mb-3 shadow-sm";
+        itemElement.innerHTML = `
+      <div class="row g-0 align-items-center">
+        <div class="col-md-3 text-center">
+          <img src="${item.image}" class="img-fluid rounded-start" alt="${item.name}">
+        </div>
+        <div class="col-md-6">
+          <div class="card-body">
+            <h5 class="card-title">${item.name}</h5>
+            <p class="card-text">Prezzo: €${item.price.toFixed(2)}</p>
+            <p class="card-text">Quantità: ${item.quantity}</p>
+          </div>
+        </div>
+        <div class="col-md-3 text-end pe-4">
+          <h5 class="text-success">Totale: €${itemTotal.toFixed(2)}</h5>
+        </div>
       </div>
     `;
-    cartItems.appendChild(row);
-  });
+        cartItemsContainer.appendChild(itemElement);
+    });
 
-  // Cart Total
-  document.getElementById("cart-total").textContent = `Totale Carrello: €${cartData.total}`;
-
-  // Footer
-  document.getElementById("footer-author").textContent = data.footer.author;
-  document.getElementById("footer-copyright").innerHTML = data.footer.copyright;
+    document.getElementById("cart-total").textContent = `Totale Carrello: €${total.toFixed(2)}`;
+    document.getElementById("checkout-button").textContent = cart.checkoutButton;
 }
