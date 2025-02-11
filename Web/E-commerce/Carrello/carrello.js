@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  fetch("content-cart.json")
+  fetch("cart.json")
     .then((response) => {
       if (!response.ok) {
         throw new Error(`Errore nel caricamento del JSON: ${response.statusText}`);

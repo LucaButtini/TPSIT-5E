@@ -3,9 +3,9 @@
         "brand": "E-COMMERCE",
         "links": [
           { "name": "Home", "href": "#" },
-          { "name": "Prodotti", "href": "../E-commerce/prodotto.html"},
-          { "name": "Archivio", "href": "../E-commerce/archivio.html", "active" : true},
-          { "name": "Carrello", "href": "../E-commerce/carrello.html" }
+          { "name": "Prodotti", "href": "../E-commerce/Prodotto/prodotto.html"},
+          { "name": "Archivio", "href": "../E-commerce/Archivio/archivio.html", "active" : true},
+          { "name": "Carrello", "href": "../E-commerce/Carrello/carrello.html" }
         ]
     },
     "cart": {
