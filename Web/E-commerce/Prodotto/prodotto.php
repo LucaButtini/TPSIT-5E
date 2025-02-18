@@ -7,8 +7,8 @@ require "../Structure/header.php";
     <div class="container mt-5 bg-body-tertiary rounded-3 px-5 py-4">
         <div class="row">
             <div class="col-md-6 text-center">
-                <img src="" class="img-fluid w-75 rounded-3 border border-dark"
-                    alt="Immagine Prodotto">
+                <img src="" class="img-fluid w-75 rounded-3  products"
+                    alt="Immagine Prodotto"> <!--metti il modal per cliccare sull'immagine dopo-->
             </div>
             <div class="col-md-6">
                 <h1 id="product-title"></h1>
