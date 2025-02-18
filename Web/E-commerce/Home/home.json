@@ -10,13 +10,13 @@
       "id": "2",
       "name": "Prodotto 2",
       "price": "€49,99",
-      "image": "../Immagini/p1.webp"
+      "image": "../Immagini/g3.webp"
     },
     {
       "id": "3",
       "name": "Prodotto 3",
       "price": "€19,99",
-      "image": "../Immagini/p1.webp"
+      "image": "../Immagini/a1.webp"
     }
   ]
 }

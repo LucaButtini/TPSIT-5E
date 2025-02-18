@@ -6,7 +6,23 @@
 
 .container {
     min-height: calc(100vh - 160px);
-    /* calcola l'altezza disponibile sottraendo l'altezza della navbar e del footer */
-    padding-bottom: 80px;
-    /* per evitare che il contenuto si sovrapponga al footer */
+    padding-bottom: 80px; /* Per evitare che il contenuto si sovrapponga al footer */
+}
+
+/* Imposta lo spazio uniforme tra le colonne */
+.row {
+    row-gap: 20px; /* Aggiunge spazio verticale tra le card */
+}
+
+/* Stile delle card */
+.products {
+    border: 1px solid black;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Animazione più fluida */
+}
+
+/* Effetto hover migliorato */
+.products:hover {
+    transform: scale(1.05); /* Si ingrandisce leggermente */
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2); /* Ombra più evidente */
+    border: 2px solid black;
 }

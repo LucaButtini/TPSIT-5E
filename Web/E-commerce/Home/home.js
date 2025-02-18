@@ -19,8 +19,7 @@ function populateHomePage(data) {
           <p class="card-text">${product.price}</p>
           <a href="Prodotto/prodotto.php?id=${product.id}" class="btn btn-primary">Vedi Prodotto</a>
         </div>
-      </div>
-    `;
+      </div>`;
         featuredProductsContainer.appendChild(productCard);
     });
 }

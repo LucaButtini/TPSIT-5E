@@ -16,7 +16,7 @@ function populateArchivePage(archive) {
         const col = document.createElement("div");
         col.className = "col-md-4 mb-4";
         col.innerHTML = `
-      <div class="card h-100 border-dark shadow-sm">
+      <div class="card h-100 products">
         <img src="${product.image}" class="card-img-top" alt="${product.name}">
         <div class="card-body">
           <h5 class="card-title">${product.name}</h5>

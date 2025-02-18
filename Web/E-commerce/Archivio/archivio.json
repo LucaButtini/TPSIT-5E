@@ -13,14 +13,35 @@
         "id": "2",
         "name": "Prodotto 2",
         "price": "€49,99",
-        "image": "../Immagini/p1.webp",
+        "image": "../Immagini/g3.webp",
         "description": "Descrizione breve del prodotto 2."
       },
       {
         "id": "3",
         "name": "Prodotto 3",
         "price": "€49,99",
-        "image": "../Immagini/p1.webp",
+        "image": "../Immagini/p2.webp",
+        "description": "Descrizione breve del prodotto 3."
+      },
+      {
+        "id": "4",
+        "name": "Prodotto 4",
+        "price": "€49,99",
+        "image": "../Immagini/p5.webp",
+        "description": "Descrizione breve del prodotto 3."
+      },
+      {
+        "id": "5",
+        "name": "Prodotto 5",
+        "price": "€49,99",
+        "image": "../Immagini/t2.webp",
+        "description": "Descrizione breve del prodotto 3."
+      },
+      {
+        "id": "6",
+        "name": "Prodotto 6",
+        "price": "€49,99",
+        "image": "../Immagini/f2.webp",
         "description": "Descrizione breve del prodotto 3."
       }
     ]
