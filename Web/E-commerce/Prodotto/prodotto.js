@@ -39,9 +39,40 @@ function populateProductPage(product) {
     reviewElement.classList.add("mb-3", "p-3", "border", "rounded-3", "bg-light");
     reviewElement.innerHTML = `
       <h5>${review.author}</h5>
-      <p>${review.rating}</p>
+      <p class="text-warning">${review.rating}</p>
       <p>${review.content}</p>
     `;
     reviewsContainer.appendChild(reviewElement);
   });
+
+  // Aggiungi evento per il pulsante "Aggiungi al Carrello"
+  document.getElementById("add-to-cart-button").addEventListener("click", () => addToCart(product));
+}
+
+function addToCart(product) {
+  const quantity = parseInt(document.getElementById("quantita").value);
+  if (quantity <= 0) {
+    alert("Seleziona una quantità valida!");
+    return;
+  }
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  // Controlla se il prodotto è già nel carrello
+  const existingProduct = cart.find((item) => item.id === product.code);
+
+  if (existingProduct) {
+    existingProduct.quantity += quantity; // Aggiorna la quantità
+  } else {
+    cart.push({
+      id: product.code,
+      name: product.title,
+      price: parseFloat(product.price.replace("€", "").replace(",", ".")), // Converte in numero
+      quantity: quantity,
+      image: product.image
+    });
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+  alert("Prodotto aggiunto al carrello!");
 }

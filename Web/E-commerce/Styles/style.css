@@ -4,9 +4,14 @@
     font-family: "Poppins", sans-serif;
 }
 
-.container {
+/*.container {
     min-height: calc(100vh - 160px);
-    padding-bottom: 80px; /* Per evitare che il contenuto si sovrapponga al footer */
+    padding-bottom: 80px;
+}*/
+
+footer{
+    position: sticky;
+    bottom: 0;
 }
 
 /* Imposta lo spazio uniforme tra le colonne */
@@ -26,3 +31,4 @@
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2); /* Ombra più evidente */
     border: 2px solid black;
 }
+

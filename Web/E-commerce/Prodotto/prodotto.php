@@ -8,7 +8,7 @@ require "../Structure/header.php";
         <div class="row">
             <div class="col-md-6 text-center">
                 <img src="" class="img-fluid w-75 rounded-3  products"
-                    alt="Immagine Prodotto"> <!--metti il modal per cliccare sull'immagine dopo-->
+                    alt="Immagine Prodotto">
             </div>
             <div class="col-md-6">
                 <h1 id="product-title"></h1>
@@ -24,9 +24,9 @@ require "../Structure/header.php";
         </div>
 
         <div class="mt-5">
-            <h3 id="description-title"></h3>
+            <h3 class="text-info" id="description-title"></h3>
             <p id="detailed-description"></p>
-            <h3 id="reviews-title"></h3>
+            <h3 class="text-info" id="reviews-title"></h3>
             <div id="reviews"></div>
         </div>
     </div>
