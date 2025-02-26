@@ -64,7 +64,7 @@ function populateCartPage(cart) {
     document.getElementById("checkout-button").textContent = "Procedi al Checkout";
 }
 
-// Funzione per aggiornare la quantità
+// aggiorna quantita
 function updateQuantity(index, change) {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
@@ -80,7 +80,7 @@ function updateQuantity(index, change) {
     }
 }
 
-// Funzione per rimuovere un prodotto dal carrello
+// togli prodotto carrello
 function removeFromCart(index) {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
     cart.splice(index, 1);
@@ -88,7 +88,7 @@ function removeFromCart(index) {
     populateCartPage(cart);
 }
 
-// Funzione per applicare il codice sconto
+// codice sconto
 function applyDiscount() {
     const discountCode = document.getElementById("discount-code").value.trim().toUpperCase();
     const discountCodes = {
@@ -117,7 +117,7 @@ function applyDiscount() {
     document.getElementById("cart-total").textContent = `Totale Carrello: €${total.toFixed(2)}`;
 }
 
-// Funzione per il pagamento
+// pagamento
 function processPayment() {
     if (confirm("Vuoi procedere con il pagamento?")) {
         alert("Pagamento completato con successo!");

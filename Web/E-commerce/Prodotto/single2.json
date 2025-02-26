@@ -1,29 +1,28 @@
 {
   "productPage": {
-    "title": "Scarpe Sportive",
-    "code": "Codice: #SP123",
-    "price": "€79,99",
-    "description": "Scarpe sportive leggere e confortevoli, ideali per attività all'aperto e palestra.",
+    "title": "Esempio prodotto 2",
+    "code": "Codice: #0000",
+    "price": "€49,99",
+    "image": "../Immagini/t2.webp",
+    "description": "Descrizione del prodotto generico.",
     "quantityLabel": "Quantità:",
     "addToCartButton": "Aggiungi al Carrello",
     "reviewsTitle": "Recensioni Clienti",
-    "image": "../Immagini/scarpe.jpg",
     "technicalDetails": {
-      "Materiale": "Mesh traspirante e suola in gomma",
-      "Peso": "500g",
-      "Impermeabile": "Sì",
-      "Uso consigliato": "Sport, corsa, palestra"
+      "Materiale": "Lin",
+      "Taglia": "XS",
+      "Lavabile": "A secco"
     },
     "reviews": [
       {
-        "author": "Giovanni Verdi",
+        "author": "Cliente 1",
         "rating": "★★★★★",
-        "content": "Scarpe comode e leggere, perfette per la corsa!"
+        "content": "Ottimo prodotto!"
       },
       {
-        "author": "Elisa Neri",
+        "author": "Cliente 2",
         "rating": "★★★★☆",
-        "content": "Molto belle, ma calzano leggermente strette."
+        "content": "Buon rapporto qualità-prezzo."
       }
     ]
   }

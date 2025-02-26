@@ -1,9 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
     fetch("single2.json")
-        .then(response => response.json())
-        .then(data => {
-            populateProductPage(data.productPage);
+        .then(response => {
+            if (!response.ok) throw new Error("Errore nel caricamento del JSON");
+            return response.json();
         })
+        .then(data => populateProductPage(data.productPage))
         .catch(error => console.error("Errore:", error));
 });
 
@@ -20,16 +21,18 @@ function populateProductPage(product) {
     imgElement.src = product.image;
     imgElement.alt = product.title;
 
-    // Carica caratteristiche tecniche
+    // caratteristiche tecniche
     const techDetailsContainer = document.getElementById("technical-details");
+    techDetailsContainer.innerHTML = "";
     for (const key in product.technicalDetails) {
         const row = document.createElement("tr");
         row.innerHTML = `<th>${key}</th><td>${product.technicalDetails[key]}</td>`;
         techDetailsContainer.appendChild(row);
     }
 
-    // Carica le recensioni
+    //  recensioni
     const reviewsContainer = document.getElementById("reviews");
+    reviewsContainer.innerHTML = "";
     product.reviews.forEach(review => {
         const reviewElement = document.createElement("div");
         reviewElement.classList.add("mb-3", "p-3", "border", "rounded-3", "bg-light");
@@ -41,14 +44,12 @@ function populateProductPage(product) {
         reviewsContainer.appendChild(reviewElement);
     });
 
-    // Evento per aggiungere il prodotto al carrello con varianti
+
     document.getElementById("add-to-cart-button").addEventListener("click", () => addToCart(product));
 }
 
 function addToCart(product) {
     const quantity = parseInt(document.getElementById("quantita").value);
-    const taglia = document.getElementById("taglia").value;
-    const colore = document.getElementById("colore").value;
 
     if (quantity <= 0) {
         alert("Seleziona una quantità valida!");
@@ -57,23 +58,20 @@ function addToCart(product) {
 
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    // Verifica se il prodotto con la stessa variante è già nel carrello
-    const existingProduct = cart.find(item => item.id === product.code && item.taglia === taglia && item.colore === colore);
-
+    // Controllo se il prodotto esiste già nel carrello
+    const existingProduct = cart.find(item => item.id === product.code);
     if (existingProduct) {
         existingProduct.quantity += quantity;
     } else {
         cart.push({
             id: product.code,
             name: product.title,
-            price: parseFloat(product.price.replace("€", "").replace(",", ".")), // Converte in numero
+            price: parseFloat(product.price.replace("€", "").replace(",", ".")),
             quantity: quantity,
-            image: product.image,
-            taglia: taglia,
-            colore: colore
+            image: product.image
         });
     }
 
     localStorage.setItem("cart", JSON.stringify(cart));
-    alert(`Prodotto aggiunto al carrello!\nTaglia: ${taglia}, Colore: ${colore}`);
+    alert(`Prodotto aggiunto al carrello!`);
 }

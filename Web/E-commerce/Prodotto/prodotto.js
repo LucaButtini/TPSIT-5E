@@ -25,14 +25,14 @@ function populateProductPage(product) {
   document.getElementById("detailed-description").textContent = product.detailedDescription;
   document.getElementById("reviews-title").textContent = product.reviewsTitle;
 
-  // Aggiungi l'immagine del prodotto
+  // immagine
   const imgElement = document.querySelector("img[alt='Immagine Prodotto']");
   if (imgElement) {
     imgElement.src = product.image;
     imgElement.alt = product.title;
   }
 
-  // Aggiungi le recensioni
+  // recensioni
   const reviewsContainer = document.getElementById("reviews");
   product.reviews.forEach((review) => {
     const reviewElement = document.createElement("div");
@@ -45,7 +45,6 @@ function populateProductPage(product) {
     reviewsContainer.appendChild(reviewElement);
   });
 
-  // Aggiungi evento per il pulsante "Aggiungi al Carrello"
   document.getElementById("add-to-cart-button").addEventListener("click", () => addToCart(product));
 }
 

@@ -7,7 +7,7 @@ require "../Structure/header.php";
     <h1 class="text-center mb-4" id="cart-title">Il tuo Carrello</h1>
     <div id="cart-items" class="mb-4"></div>
 
-    <!-- Campo per il codice sconto -->
+    <!--  codice sconto -->
     <div class="d-flex justify-content-between align-items-center mb-3">
         <input type="text" id="discount-code" class="form-control w-50" placeholder="Codice Sconto (es: ITIS10, ecc...)">
         <button id="apply-discount" class="btn btn-primary ms-2">Applica</button>
