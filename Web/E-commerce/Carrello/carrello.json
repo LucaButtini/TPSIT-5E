@@ -1,27 +1,6 @@
 {
     "cartPage": {
         "title": "Il tuo Carrello",
-        "checkoutButton": "Procedi al Checkout",
-        "items": [
-            {
-                "id": "1",
-                "name": "Prodotto 1",
-                "price": 29.99,
-                "quantity": 2,
-                "image": "../Immagini/p1.webp"
-            },
-            {
-                "id": "2",
-                "name": "Prodotto 2",
-                "price": 49.99,
-                "quantity": 1,
-                "image": "../Immagini/p1.webp"
-            }
-        ],
-        "discountCodes": {
-            "SCONTO10": 10,
-            "PROMO20": 20,
-            "VIP30": 30
-        }
+        "checkoutButton": "Procedi al Checkout"
     }
 }

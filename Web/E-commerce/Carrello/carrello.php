@@ -9,7 +9,7 @@ require "../Structure/header.php";
 
     <!-- Campo per il codice sconto -->
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <input type="text" id="discount-code" class="form-control w-50" placeholder="Inserisci codice sconto">
+        <input type="text" id="discount-code" class="form-control w-50" placeholder="Codice Sconto (es: ITIS10, ecc...)">
         <button id="apply-discount" class="btn btn-primary ms-2">Applica</button>
     </div>
 
@@ -18,7 +18,6 @@ require "../Structure/header.php";
         <button id="checkout-button" class="btn btn-success">Procedi al Checkout</button>
     </div>
 </div>
-
 
 <?php
 require "../Structure/footer.php";
