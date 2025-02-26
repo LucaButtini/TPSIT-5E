@@ -1,19 +1,33 @@
 document.addEventListener("DOMContentLoaded", () => {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    if (cart.length === 0) {
+    if (cart.length === 0 && !localStorage.getItem("cartInitialized")) {
+        // Se il carrello è vuoto e non è stato inizializzato, carica i dati dal JSON
         fetch("carrello.json")
             .then(response => response.json())
             .then(data => {
                 cart = data.cartPage.items;
                 saveCart(cart);
+                localStorage.setItem("cartInitialized", "true"); // Segna che il carrello è stato inizializzato
                 populateCartPage(cart);
             })
             .catch(error => console.error("Errore nel caricamento del JSON:", error));
     } else {
         populateCartPage(cart);
     }
+
+    // Aggiungi l'evento per il bottone "Applica"
+    document.getElementById("apply-discount").addEventListener("click", applyDiscount);
 });
+
+function saveCart(cart) {
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    // Se il carrello è completamente vuoto, rimuoviamo il flag di inizializzazione
+    if (cart.length === 0) {
+        localStorage.removeItem("cartInitialized");
+    }
+}
 
 function populateCartPage(cart) {
     const cartItemsContainer = document.getElementById("cart-items");
@@ -51,10 +65,12 @@ function populateCartPage(cart) {
         cartItemsContainer.appendChild(itemElement);
     });
 
+    // Mostra il totale del carrello
     document.getElementById("cart-total").textContent = `Totale Carrello: €${total.toFixed(2)}`;
     document.getElementById("checkout-button").textContent = "Procedi al Checkout";
 }
 
+// Funzione per aggiornare la quantità
 function updateQuantity(index, change) {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
@@ -71,6 +87,7 @@ function updateQuantity(index, change) {
     }
 }
 
+// Funzione per rimuovere un prodotto dal carrello
 function removeFromCart(index) {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
     cart.splice(index, 1);
@@ -78,6 +95,36 @@ function removeFromCart(index) {
     populateCartPage(cart);
 }
 
-function saveCart(cart) {
-    localStorage.setItem("cart", JSON.stringify(cart));
+// Funzione per applicare il codice sconto
+function applyDiscount() {
+    const discountCode = document.getElementById("discount-code").value.trim().toUpperCase();
+    const discountCodes = {
+        "SCONTO10": 10,  // 10% di sconto
+        "PROMO20": 20,   // 20% di sconto
+        "VIP30": 30      // 30% di sconto
+    };
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let total = 0;
+
+    cart.forEach(item => {
+        total += item.price * item.quantity;
+    });
+
+    // Se il codice di sconto è valido, applicalo
+    if (discountCodes[discountCode]) {
+        const discount = discountCodes[discountCode];
+        const discountAmount = (total * discount) / 100;
+        total -= discountAmount;
+
+        // Mostra il messaggio di conferma
+        alert(`Sconto applicato! Hai ottenuto uno sconto del ${discount}%`);
+
+    } else {
+        // Se il codice non è valido, mostra un messaggio di errore
+        alert("Codice sconto non valido!");
+    }
+
+    // Mostra il totale aggiornato
+    document.getElementById("cart-total").textContent = `Totale Carrello: €${total.toFixed(2)}`;
 }

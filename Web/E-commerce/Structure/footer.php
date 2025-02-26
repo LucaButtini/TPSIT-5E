@@ -1,6 +1,6 @@
 <footer>
-    <div class="bg-dark py-5 mt-5 text-center rounded-3">
-        <p class="display-6 mb-3 text-white">Buttini Luca 5-E</p>
+    <div class="bg-dark py-4 mt-4 text-center rounded-3">
+        <p class="display-6 mb-2 text-white">Buttini Luca 5-E</p>
         <small class="text-white-50">&copy; 2025 E-Commerce. All rights reserved.</small>
     </div>
 </footer>

@@ -17,6 +17,11 @@
                 "quantity": 1,
                 "image": "../Immagini/p1.webp"
             }
-        ]
+        ],
+        "discountCodes": {
+            "SCONTO10": 10,
+            "PROMO20": 20,
+            "VIP30": 30
+        }
     }
 }

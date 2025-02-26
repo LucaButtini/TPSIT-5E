@@ -19,7 +19,7 @@ function populateArchivePage(archive) {
       <div class="card h-100 products">
         <img src="${product.image}" class="card-img-top" alt="${product.name}">
         <div class="card-body">
-          <h5 class="card-title">${product.name}</h5>
+          <h5 class="card-title"><strong>${product.name}</strong></h5>
           <p class="card-text">${product.description}</p>
           <h6 class="text-success">${product.price}</h6>
           <a href="../Prodotto/prodotto.php?id=${product.id}" class="btn btn-dark w-100">Visualizza Dettagli</a>

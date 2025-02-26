@@ -13,7 +13,14 @@ footer{
     position: sticky;
     bottom: 0;
 }
+footer .display-6 {
+    font-size: 1.5rem; /* Riduce la dimensione del testo */
+    margin-bottom: 5px; /* Diminuisce lo spazio sotto il titolo */
+}
 
+footer small {
+    font-size: 0.8rem; /* Rende il testo del copyright più piccolo */
+}
 /* Imposta lo spazio uniforme tra le colonne */
 .row {
     row-gap: 20px; /* Aggiunge spazio verticale tra le card */
