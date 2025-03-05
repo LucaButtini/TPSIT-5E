@@ -1,14 +1,19 @@
+// Attende il caricamento completo della pagina prima di eseguire il codice
 document.addEventListener("DOMContentLoaded", () => {
+    // Effettua una richiesta per caricare i dati dal file JSON "single2.json"
     fetch("single2.json")
         .then(response => {
+            // Verifica che la risposta sia valida, altrimenti genera un errore
             if (!response.ok) throw new Error("Errore nel caricamento del JSON");
-            return response.json();
+            return response.json(); // Converte la risposta in formato JSON
         })
-        .then(data => populateProductPage(data.productPage))
-        .catch(error => console.error("Errore:", error));
+        .then(data => populateProductPage(data.productPage)) // Popola la pagina con i dati del prodotto
+        .catch(error => console.error("Errore:", error)); // Gestisce eventuali errori di caricamento
 });
 
+// Funzione per popolare la pagina del prodotto con i dati del JSON
 function populateProductPage(product) {
+    // Inserisce i dettagli del prodotto nei rispettivi elementi HTML
     document.getElementById("product-title").textContent = product.title;
     document.getElementById("product-code").textContent = product.code;
     document.getElementById("product-price").textContent = product.price;
@@ -17,61 +22,68 @@ function populateProductPage(product) {
     document.getElementById("add-to-cart-button").textContent = product.addToCartButton;
     document.getElementById("reviews-title").textContent = product.reviewsTitle;
 
+    // Seleziona l'elemento immagine e aggiorna il src e l'alt
     const imgElement = document.querySelector("img[alt='Immagine Prodotto']");
     imgElement.src = product.image;
     imgElement.alt = product.title;
 
-    // caratteristiche tecniche
+    // Popola la tabella delle caratteristiche tecniche
     const techDetailsContainer = document.getElementById("technical-details");
-    techDetailsContainer.innerHTML = "";
+    techDetailsContainer.innerHTML = ""; // Svuota eventuali dati precedenti
     for (const key in product.technicalDetails) {
-        const row = document.createElement("tr");
+        const row = document.createElement("tr"); // Crea una riga della tabella
         row.innerHTML = `<th>${key}</th><td>${product.technicalDetails[key]}</td>`;
-        techDetailsContainer.appendChild(row);
+        techDetailsContainer.appendChild(row); // Aggiunge la riga alla tabella
     }
 
-    //  recensioni
+    // Popola la sezione delle recensioni
     const reviewsContainer = document.getElementById("reviews");
-    reviewsContainer.innerHTML = "";
+    reviewsContainer.innerHTML = ""; // Svuota eventuali dati precedenti
     product.reviews.forEach(review => {
         const reviewElement = document.createElement("div");
-        reviewElement.classList.add("mb-3", "p-3", "border", "rounded-3", "bg-light");
+        reviewElement.classList.add("mb-3", "p-3", "border", "rounded-3", "bg-light"); // Aggiunge classi di stile
         reviewElement.innerHTML = `
             <h5>${review.author}</h5>
             <p class="text-warning">${review.rating}</p>
             <p>${review.content}</p>
         `;
-        reviewsContainer.appendChild(reviewElement);
+        reviewsContainer.appendChild(reviewElement); // Aggiunge la recensione alla sezione
     });
 
-
+    // Aggiunge un evento al pulsante "Aggiungi al carrello"
     document.getElementById("add-to-cart-button").addEventListener("click", () => addToCart(product));
 }
 
+// Funzione per aggiungere un prodotto al carrello
 function addToCart(product) {
+    // Ottiene la quantità selezionata dall'utente
     const quantity = parseInt(document.getElementById("quantita").value);
 
+    // Verifica che la quantità sia valida
     if (quantity <= 0) {
         alert("Seleziona una quantità valida!");
         return;
     }
 
+    // Recupera il carrello dal localStorage, o crea un array vuoto se non esiste
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    // Controllo se il prodotto esiste già nel carrello
+    // Controlla se il prodotto è già nel carrello
     const existingProduct = cart.find(item => item.id === product.code);
     if (existingProduct) {
-        existingProduct.quantity += quantity;
+        existingProduct.quantity += quantity; // Se esiste, aggiorna la quantità
     } else {
+        // Se non esiste, aggiunge il prodotto al carrello
         cart.push({
             id: product.code,
             name: product.title,
-            price: parseFloat(product.price.replace("€", "").replace(",", ".")),
+            price: parseFloat(product.price.replace("€", "").replace(",", ".")), // Converte il prezzo in numero
             quantity: quantity,
             image: product.image
         });
     }
 
+    // Salva il carrello aggiornato nel localStorage
     localStorage.setItem("cart", JSON.stringify(cart));
-    alert(`Prodotto aggiunto al carrello!`);
+    alert(`Prodotto aggiunto al carrello!`); // Mostra un messaggio di conferma
 }

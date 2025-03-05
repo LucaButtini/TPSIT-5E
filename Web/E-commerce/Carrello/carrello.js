@@ -1,38 +1,46 @@
+// Attende il caricamento della pagina prima di eseguire il codice
 document.addEventListener("DOMContentLoaded", () => {
+    // Recupera il carrello dal localStorage o inizializza un array vuoto se non esiste
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    // Usa "firstLoadDone" invece di "cartInitialized" per evitare di ricaricare i prodotti di default dopo la prima volta
+    // Controlla se è la prima volta che viene caricato il carrello, per evitare di sovrascriverlo
     if (!localStorage.getItem("firstLoadDone")) {
+        // Carica il carrello di default da un file JSON
         fetch("carrello.json")
-            .then(response => response.json())
+            .then(response => response.json()) // Converte la risposta in JSON
             .then(data => {
-                cart = data.cartPage.items;
-                saveCart(cart);
-                localStorage.setItem("firstLoadDone", "true"); // Imposta il flag per evitare il reset
-                populateCartPage(cart);
+                cart = data.cartPage.items; // Assegna i dati del JSON al carrello
+                saveCart(cart); // Salva il carrello nel localStorage
+                localStorage.setItem("firstLoadDone", "true"); // Imposta il flag per evitare il reset futuro
+                populateCartPage(cart); // Mostra i prodotti nel carrello
             })
             .catch(error => console.error("Errore nel caricamento del JSON:", error));
     } else {
+        // Se il carrello esiste già, lo mostra senza ricaricare i dati dal JSON
         populateCartPage(cart);
     }
 
+    // Aggiunge gli event listener per il codice sconto e il pagamento
     document.getElementById("apply-discount").addEventListener("click", applyDiscount);
     document.getElementById("checkout-button").addEventListener("click", processPayment);
 });
 
+// Funzione per salvare il carrello nel localStorage
 function saveCart(cart) {
     localStorage.setItem("cart", JSON.stringify(cart));
 }
 
+// Funzione per popolare la pagina del carrello con i prodotti salvati
 function populateCartPage(cart) {
     const cartItemsContainer = document.getElementById("cart-items");
-    cartItemsContainer.innerHTML = "";
+    cartItemsContainer.innerHTML = ""; // Pulisce il contenuto precedente
     let total = 0;
 
     cart.forEach((item, index) => {
-        const itemTotal = item.price * item.quantity;
-        total += itemTotal;
+        const itemTotal = item.price * item.quantity; // Calcola il totale per il prodotto
+        total += itemTotal; // Aggiunge il totale al prezzo complessivo del carrello
 
+        // Crea l'elemento HTML per il prodotto nel carrello
         const itemElement = document.createElement("div");
         itemElement.className = "card mb-3 shadow-sm";
         itemElement.innerHTML = `
@@ -57,71 +65,76 @@ function populateCartPage(cart) {
                 </div>
             </div>
         `;
-        cartItemsContainer.appendChild(itemElement);
+        cartItemsContainer.appendChild(itemElement); // Aggiunge il prodotto al carrello visibile
     });
 
+    // Aggiorna il totale del carrello nella pagina
     document.getElementById("cart-total").textContent = `Totale Carrello: €${total.toFixed(2)}`;
     document.getElementById("checkout-button").textContent = "Procedi al Checkout";
 }
 
-// aggiorna quantita
+// Funzione per aggiornare la quantità di un prodotto nel carrello
 function updateQuantity(index, change) {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
     if (cart[index]) {
-        cart[index].quantity += change;
+        cart[index].quantity += change; // Modifica la quantità del prodotto
 
+        // Se la quantità diventa 0 o meno, rimuove il prodotto dal carrello
         if (cart[index].quantity <= 0) {
             cart.splice(index, 1);
         }
 
-        saveCart(cart);
-        populateCartPage(cart);
+        saveCart(cart); // Salva il carrello aggiornato nel localStorage
+        populateCartPage(cart); // Aggiorna la visualizzazione del carrello
     }
 }
 
-// togli prodotto carrello
+// Funzione per rimuovere un prodotto dal carrello
 function removeFromCart(index) {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    cart.splice(index, 1);
-    saveCart(cart);
-    populateCartPage(cart);
+    cart.splice(index, 1); // Rimuove il prodotto selezionato dal carrello
+    saveCart(cart); // Salva il carrello aggiornato
+    populateCartPage(cart); // Aggiorna la visualizzazione
 }
 
-// codice sconto
+// Funzione per applicare un codice sconto
 function applyDiscount() {
-    const discountCode = document.getElementById("discount-code").value.trim().toUpperCase();
+    const discountCode = document.getElementById("discount-code").value.trim().toUpperCase(); // Recupera e normalizza il codice sconto
     const discountCodes = {
-        "ITIS10": 10,
-        "ITIS20": 20,
-        "ITIS30": 30
+        "ITIS10": 10, // 10% di sconto
+        "ITIS20": 20, // 20% di sconto
+        "ITIS30": 30  // 30% di sconto
     };
 
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
     let total = 0;
 
+    // Calcola il totale del carrello
     cart.forEach(item => {
         total += item.price * item.quantity;
     });
 
+    // Se il codice sconto è valido, calcola il nuovo totale
     if (discountCodes[discountCode]) {
-        const discount = discountCodes[discountCode];
-        const discountAmount = (total * discount) / 100;
-        total -= discountAmount;
+        const discount = discountCodes[discountCode]; // Percentuale di sconto
+        const discountAmount = (total * discount) / 100; // Calcola lo sconto
+        total -= discountAmount; // Applica lo sconto al totale
 
         alert(`Sconto applicato! Hai ottenuto uno sconto del ${discount}%`);
     } else {
-        alert("Codice sconto non valido!");
+        alert("Codice sconto non valido!"); // Se il codice non è valido, mostra un messaggio di errore
     }
 
+    // Aggiorna il totale del carrello nella pagina
     document.getElementById("cart-total").textContent = `Totale Carrello: €${total.toFixed(2)}`;
 }
 
-// pagamento
+// Funzione per simulare il pagamento
 function processPayment() {
     if (confirm("Vuoi procedere con il pagamento?")) {
-        alert("Pagamento completato con successo!");
+        alert("Pagamento completato con successo!"); // Messaggio di conferma
         localStorage.removeItem("cart"); // Svuota il carrello
-        window.location.reload(); // Ricarica la pagina
+        window.location.reload(); // Ricarica la pagina per aggiornare lo stato del carrello
     }
 }
