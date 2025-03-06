@@ -1,0 +1,55 @@
+{
+  "archivePage": {
+    "title": "Archivio Prodotti",
+    "products": [
+      {
+        "id": "1",
+        "name": "Prodotto 1",
+        "price": "€29,99",
+        "image": "../Immagini/p1.webp",
+        "description": "Descrizione prodotto 1.",
+        "type": "prodotto"
+      },
+      {
+        "id": "2",
+        "name": "Prodotto 2",
+        "price": "€49,99",
+        "image": "../Immagini/g3.webp",
+        "description": "Descrizione prodotto 2.",
+        "type": "single2"
+      },
+      {
+        "id": "3",
+        "name": "Prodotto 3",
+        "price": "€49,99",
+        "image": "../Immagini/p2.webp",
+        "description": "Descrizione prodotto 3.",
+        "type": "prodotto"
+      },
+      {
+        "id": "4",
+        "name": "Prodotto 4",
+        "price": "€49,99",
+        "image": "../Immagini/p5.webp",
+        "description": "Descrizione prodotto 4.",
+        "type": "single2"
+      },
+      {
+        "id": "5",
+        "name": "Prodotto 5",
+        "price": "€49,99",
+        "image": "../Immagini/t2.webp",
+        "description": "Descrizione prodotto 5.",
+        "type": "prodotto"
+      },
+      {
+        "id": "6",
+        "name": "Prodotto 6",
+        "price": "€49,99",
+        "image": "../Immagini/f2.webp",
+        "description": "Descrizione prodotto 6.",
+        "type": "single2"
+      }
+    ]
+  }
+}

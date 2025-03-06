@@ -1,0 +1,29 @@
+{
+  "productPage": {
+    "title": "Esempio prodotto 2",
+    "code": "Codice: #0000",
+    "price": "€49,99",
+    "image": "../Immagini/t2.webp",
+    "description": "Descrizione del prodotto generico.",
+    "quantityLabel": "Quantità:",
+    "addToCartButton": "Aggiungi al Carrello",
+    "reviewsTitle": "Recensioni Clienti",
+    "technicalDetails": {
+      "Materiale": "Lin",
+      "Taglia": "XS",
+      "Lavabile": "A secco"
+    },
+    "reviews": [
+      {
+        "author": "Cliente 1",
+        "rating": "★★★★★",
+        "content": "Ottimo prodotto!"
+      },
+      {
+        "author": "Cliente 2",
+        "rating": "★★★★☆",
+        "content": "Buon rapporto qualità-prezzo."
+      }
+    ]
+  }
+}
