@@ -21,3 +21,8 @@ create table materiali(
 	lavaggio bool
 );
 
+
+create table users(
+	nome varchar(250) primary key,
+	password varchar(250)
+);
