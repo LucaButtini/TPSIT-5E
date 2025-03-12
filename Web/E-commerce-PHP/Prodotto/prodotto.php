@@ -6,6 +6,11 @@ require "../Structure/header.php";
 
     <div class="container mt-5 bg-body-tertiary rounded-3 px-5 py-4">
         <div class="row">
+            <!-- Messaggio di conferma nascosto -->
+            <div id="confirmation-message" class="alert alert-success text-center fw-bold d-none">
+                Prodotto aggiunto al carrello!
+            </div>
+
             <div class="col-md-6 text-center">
                 <img src="" class="img-fluid w-75 rounded-3  products"
                     alt="Immagine Prodotto">

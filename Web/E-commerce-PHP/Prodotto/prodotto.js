@@ -60,39 +60,43 @@ function populateProductPage(product) {
 
 // Funzione per aggiungere il prodotto al carrello
 function addToCart(product) {
-  // Ottiene il valore della quantità selezionata
   const quantity = parseInt(document.getElementById("quantita").value);
 
-  // Controlla che la quantità sia valida (maggiore di zero)
   if (quantity <= 0) {
     alert("Seleziona una quantità valida!");
     return;
   }
 
-  // Recupera il carrello dal localStorage o inizializza un array vuoto
-  //QUA DA ERRORE SULLA CONSOLE NEL BROWSER
   let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-  // Controlla se il prodotto è già nel carrello
   const existingProduct = cart.find((item) => item.id === product.code);
 
   if (existingProduct) {
-    // Se esiste, aumenta solo la quantità
     existingProduct.quantity += quantity;
   } else {
-    // Se non esiste, lo aggiunge come nuovo oggetto nel carrello
     cart.push({
       id: product.code,
       name: product.title,
-      price: parseFloat(product.price.replace("€", "").replace(",", ".")), // Converte il prezzo in numero
+      price: parseFloat(product.price.replace("€", "").replace(",", ".")),
       quantity: quantity,
       image: product.image
     });
   }
 
-  // Salva il carrello aggiornato nel localStorage
   localStorage.setItem("cart", JSON.stringify(cart));
 
-  // Mostra un avviso di conferma all'utente
-  alert("Prodotto aggiunto al carrello!");
+  // Mostra il messaggio di conferma
+  showConfirmationMessage();
 }
+
+// Funzione per mostrare il messaggio di conferma
+function showConfirmationMessage() {
+  const messageEl = document.getElementById("confirmation-message");
+  messageEl.classList.remove("d-none"); // Mostra il messaggio
+
+  // Nasconde il messaggio dopo 2 secondi
+  setTimeout(() => {
+    messageEl.classList.add("d-none");
+  }, 2000);
+}
+
+

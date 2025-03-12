@@ -130,11 +130,4 @@ function applyDiscount() {
     document.getElementById("cart-total").textContent = `Totale Carrello: €${total.toFixed(2)}`;
 }
 
-// Funzione per simulare il pagamento
-function processPayment() {
-    if (confirm("Vuoi procedere con il pagamento?")) {
-        alert("Pagamento completato con successo!");
-        localStorage.removeItem("cart");
-        window.location.reload();
-    }
-}
+

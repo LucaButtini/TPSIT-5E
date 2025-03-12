@@ -15,7 +15,7 @@ require "../Structure/header.php";
 
     <h3 id="cart-total" class="text-end text-success"></h3>
     <div class="text-end">
-        <button id="checkout-button" class="btn btn-success">Procedi al Checkout</button>
+        <a href="../Structure/confirm.html" class="btn btn-success mt-3">Procedi al Checkout</a>
     </div>
 </div>
 
