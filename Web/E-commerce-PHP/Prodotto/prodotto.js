@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Mostra il carrello iniziale se ci sono articoli nel localStorage
+  // Aggiorna il conteggio del carrello (se presente, per esempio in un elemento con id "cart-count")
   updateCartCount();
 
-  // Aggiungi prodotto al carrello
+  // Aggiungi il listener per il bottone "Aggiungi al Carrello"
   document.getElementById('add-to-cart-button').addEventListener('click', function () {
     let taglia = document.getElementById('taglia').value;
     let quantita = document.getElementById('quantita').value;
@@ -12,9 +12,10 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // Recupera il prodotto direttamente dal PHP (tutti i dati necessari sono già inclusi)
+    // Recupera il prodotto dal DOM
     let prodotto = {
-      codice: document.getElementById("product-code").textContent.trim(),
+      // Rimuove la parte "Codice: " dal testo
+      codice: document.getElementById("product-code").textContent.replace('Codice: ', '').trim(),
       titolo: document.getElementById("product-title").textContent.trim(),
       prezzo: document.getElementById("product-price").textContent.trim(),
       immagine: document.getElementById("product-image").src,
@@ -25,13 +26,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // Recupera il carrello dal localStorage (o inizializza un array vuoto)
     let carrello = JSON.parse(localStorage.getItem('carrello')) || [];
 
-    // Aggiungi il prodotto al carrello (o aggiorna la quantità se esiste già)
+    // Aggiunge il prodotto al carrello o aggiorna la quantità se esiste già
     let prodottoEsistente = carrello.find(item => item.codice === prodotto.codice && item.taglia === prodotto.taglia);
     if (prodottoEsistente) {
-      // Se il prodotto esiste già, aggiorna la quantità
       prodottoEsistente.quantita = parseInt(prodottoEsistente.quantita) + parseInt(prodotto.quantita);
     } else {
-      // Altrimenti, aggiungilo come nuovo
       carrello.push(prodotto);
     }
 
@@ -56,9 +55,8 @@ function updateCartCount() {
   let carrello = JSON.parse(localStorage.getItem('carrello')) || [];
   let numeroArticoli = carrello.reduce((total, item) => total + parseInt(item.quantita), 0);
 
-  // Mostra il numero di articoli nel carrello (puoi sostituire 'cart-count' con l'ID di un elemento nella tua pagina)
   let cartCount = document.getElementById('cart-count');
   if (cartCount) {
-    cartCount.textContent = numeroArticoli > 0 ? numeroArticoli : ''; // Mostra il numero o nascondi se vuoto
+    cartCount.textContent = numeroArticoli > 0 ? numeroArticoli : '';
   }
 }
