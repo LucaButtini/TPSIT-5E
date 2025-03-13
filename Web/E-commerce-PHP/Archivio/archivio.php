@@ -6,7 +6,7 @@ $db = DbConn::getDB($conf);
 require "../Structure/header.php";
 
 // Recupera i prodotti dal database
-$query = "SELECT codice, titolo AS name, prezzo, immagine AS image, descrizione, materiale_tipo FROM prodotti";
+$query = "SELECT codice, titolo AS name, prezzo, immagine AS image, descrizione FROM prodotti";
 $stm = $db->prepare($query);
 $stm->execute();
 $prodotti = $stm->fetchAll(PDO::FETCH_OBJ);
@@ -23,8 +23,7 @@ $prodotti = $stm->fetchAll(PDO::FETCH_OBJ);
                         <h5 class="card-title"><strong><?= $prodotto->name ?></strong></h5>
                         <p class="card-text"><?= $prodotto->descrizione ?></p>
                         <h6 class="text-success">€<?= number_format($prodotto->prezzo, 2, ',', '.') ?></h6>
-                        <?php $paginaProdotto = ($prodotto->materiale_tipo === 'single2') ? 'single2.php' : 'prodotto.php'; ?>
-                        <a href="../Prodotto/<?= $paginaProdotto ?>?id=<?= $prodotto->codice ?>" class="btn btn-dark w-100">Visualizza Dettagli</a>
+                        <a href="../Prodotto/prodotto.php?codice=<?= $prodotto->codice ?>" class="btn btn-dark w-100">Visualizza Dettagli</a>
                     </div>
                 </div>
             </div>
