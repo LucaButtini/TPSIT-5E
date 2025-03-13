@@ -28,9 +28,6 @@ $page = substr($_SERVER["SCRIPT_NAME"],strrpos($_SERVER["SCRIPT_NAME"],"/")+1);
                 <li class="nav-item">
                     <a class="nav-link <?= $page == 'index.php' ? 'active':''; ?>" href="../Home/index.php">Home</a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link <?= $page == 'prodotto.php' ? 'active':''; ?>" href="../Prodotto/prodotto.php">Prodotti</a>
-                </li>
                 <li class="nav-item">
                     <a class="nav-link <?= $page == 'archivio.php' ? 'active':''; ?>" href="../Archivio/archivio.php">Archivio</a>
                 </li>
