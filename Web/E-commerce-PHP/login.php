@@ -2,19 +2,24 @@
 // Inizializza la sessione
 session_start();
 
+// Controlla se l'utente è già loggato
+if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
+    header("location: welcome.php"); // Se l'utente è già loggato, reindirizzalo
+    exit;
+}
+
 // Controlla se il modulo è stato inviato
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Recupera i dati dal modulo
-    $email = $_POST['email'];
+    $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // Qui dovresti aggiungere la logica per verificare le credenziali dell'utente
-    // Ad esempio, controllando un database
-
-    // Per ora, simuleremo un login di successo se l'email è "test@example.com" e la password è "password"
-    if ($email === "test@example.com" && $password === "password") {
+    // Simuliamo una verifica (dovresti fare una query sul database)
+    // Ad esempio, verifica se l'username e la password corrispondono a quelli nel database
+    if ($username === "testuser" && $password === "password") {
+        // Crea le variabili di sessione
         $_SESSION['loggedin'] = true;
-        $_SESSION['email'] = $email;
+        $_SESSION['username'] = $username;
         header("location: welcome.php"); // Reindirizza a una pagina di benvenuto
         exit;
     } else {
@@ -43,8 +48,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php endif; ?>
     <form method="post" action="">
         <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="Inserisci la tua email" required>
+            <label for="username">Username</label>
+            <input type="text" class="form-control" id="username" name="username" placeholder="Inserisci il tuo username" required>
         </div>
         <div class="form-group">
             <label for="password">Password</label>
