@@ -12,7 +12,7 @@ $stm->execute();
 $prodotti = $stm->fetchAll(PDO::FETCH_OBJ);
 ?>
 
-<div class="container mt-5 bg-body-tertiary rounded-3 px-5 py-4">
+<div class="container mt-5 bg-body-tertiary rounded-3 px-5 py-5">
     <h1 class="text-center mb-4"><strong>Archivio Prodotti</strong></h1>
     <div class="row">
         <?php foreach ($prodotti as $prodotto) : ?>

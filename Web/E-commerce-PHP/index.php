@@ -32,7 +32,7 @@ $prodotti = $stm->fetchAll(PDO::FETCH_OBJ);
                     <img src="<?= $prodotto->image ?>" class="card-img-top" alt="<?= $prodotto->name ?>">
                     <div class="card-body">
                         <h5 class="card-title"><?= $prodotto->name ?></h5>
-                        <p class="card-text">€<?= number_format($prodotto->prezzo, 2, ',', '.') ?></p>
+                        <p class="card-text text-success">€<?= number_format($prodotto->prezzo, 2, ',', '.') ?></p>
                         <a href="prodotto.php?codice=<?= $prodotto->codice ?>" class="btn btn-dark">Vedi Prodotto</a>
                     </div>
                 </div>

@@ -9,6 +9,30 @@
     padding-bottom: 80px;
 }*/
 
+#login-body {
+    background-color: #f1f1f1;
+}
+
+.login-card {
+    max-width: 400px;
+    margin: auto;
+    margin-top: 100px;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: white;
+}
+
+.login-card h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.btn-google {
+    background-color: #4285F4;
+    color: white;
+}
+
 footer{
     bottom: 0;
 }
