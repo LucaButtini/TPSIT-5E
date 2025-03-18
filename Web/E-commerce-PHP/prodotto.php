@@ -8,7 +8,7 @@ $db = DbConn::getDB($conf);
 require "Structure/header.php";
 
 // Recupero il prodotto dal database
-$codice_prodotto = $_GET['codice'] ?? ''; // Prende il codice prodotto dall'URL
+$codice_prodotto = $_GET['codice'] ?? '';
 
 if (empty($codice_prodotto)) {
     echo "<div class='container mt-5 alert alert-danger'>Codice prodotto mancante.</div>";
@@ -43,42 +43,59 @@ $taglie = $stm->fetchAll(PDO::FETCH_OBJ);
 
 // Gestione aggiunta al carrello
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Recupero i dati del prodotto e della quantità selezionata
+    // Recupero i dati inviati dal form
     $codice_prodotto = $_POST['codice'];
-    $taglia = $_POST['taglia'];
-    $quantita = $_POST['quantita'];
+    $quantita = (int) $_POST['quantita'];
+    // Taglia viene inviato solo a scopo visivo, dato che non la gestiamo in questo esempio
 
-    // Step 1: Verifica se c'è già un carrello esistente
-    $query_carrello = "SELECT id FROM carrello WHERE data_creazione > NOW() - INTERVAL 1 HOUR";
+    // Step 1: Verifica se esiste un carrello attivo per oggi
+    $query_carrello = "SELECT id FROM carrello WHERE data_creazione = CURDATE()";
     $stm = $db->prepare($query_carrello);
     $stm->execute();
     $carrello = $stm->fetch(PDO::FETCH_OBJ);
 
-    // Step 2: Se non c'è un carrello attivo, creiamo un nuovo carrello
     if (!$carrello) {
-        $query_crea_carrello = "INSERT INTO carrello (data_creazione) VALUES (NOW())";
+        // Crea un nuovo carrello se non esiste
+        $query_crea_carrello = "INSERT INTO carrello (data_creazione) VALUES (CURDATE())";
         $db->exec($query_crea_carrello);
         $carrello_id = $db->lastInsertId();
     } else {
         $carrello_id = $carrello->id;
     }
 
-    // Step 3: Aggiungi il prodotto selezionato al carrello
-    $query_aggiungi_prodotto = "INSERT INTO carrello_prodotti (carrello_id, codice_prodotto, taglia, quantita) 
-                                VALUES (:carrello_id, :codice_prodotto, :taglia, :quantita)";
-    $stm = $db->prepare($query_aggiungi_prodotto);
+    // Step 2: Controlla se il prodotto è già presente nel carrello
+    $query_check = "SELECT quantita FROM ordini WHERE id_carrello = :carrello_id AND prodotto = :codice_prodotto";
+    $stm = $db->prepare($query_check);
     $stm->bindParam(':carrello_id', $carrello_id, PDO::PARAM_INT);
     $stm->bindParam(':codice_prodotto', $codice_prodotto, PDO::PARAM_STR);
-    $stm->bindParam(':taglia', $taglia, PDO::PARAM_STR);
-    $stm->bindParam(':quantita', $quantita, PDO::PARAM_INT);
+    $stm->execute();
+    $existing = $stm->fetch(PDO::FETCH_OBJ);
 
-    if ($stm->execute()) {
+    if ($existing) {
+        // Aggiorna la quantità sommando quella inviata
+        $new_quantita = $existing->quantita + $quantita;
+        $query_update = "UPDATE ordini SET quantita = :new_quantita WHERE id_carrello = :carrello_id AND prodotto = :codice_prodotto";
+        $stm = $db->prepare($query_update);
+        $stm->bindParam(':new_quantita', $new_quantita, PDO::PARAM_INT);
+        $stm->bindParam(':carrello_id', $carrello_id, PDO::PARAM_INT);
+        $stm->bindParam(':codice_prodotto', $codice_prodotto, PDO::PARAM_STR);
+        $stm->execute();
+    } else {
+        // Inserisce il nuovo prodotto con la quantità specificata
+        $query_insert = "INSERT INTO ordini (id_carrello, prodotto, quantita) VALUES (:carrello_id, :codice_prodotto, :quantita)";
+        $stm = $db->prepare($query_insert);
+        $stm->bindParam(':carrello_id', $carrello_id, PDO::PARAM_INT);
+        $stm->bindParam(':codice_prodotto', $codice_prodotto, PDO::PARAM_STR);
+        $stm->bindParam(':quantita', $quantita, PDO::PARAM_INT);
+        $stm->execute();
+    }
+
+    if ($stm->rowCount() > 0) {
         echo "<div class='container mt-5 alert alert-success text-center fw-bold'>Prodotto aggiunto al carrello!</div>";
     } else {
         echo "<div class='container mt-5 alert alert-danger text-center'>Errore nell'aggiungere il prodotto al carrello.</div>";
     }
 }
-
 ?>
 
 <div class="container mt-5 bg-body-tertiary rounded-3 px-5 py-4">
@@ -94,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             <!-- Form per l'aggiunta al carrello -->
             <form method="POST" action="prodotto.php?codice=<?= $prodotto->codice ?>" class="mt-3">
-                <!-- Selettore della Taglia -->
+                <!-- Selettore della Taglia (solo a scopo visivo) -->
                 <label for="taglia">Taglia:</label>
                 <select id="taglia" name="taglia" class="form-control w-50 mb-3">
                     <?php foreach ($taglie as $taglia): ?>
@@ -111,23 +128,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </form>
         </div>
     </div>
+
     <!-- Sezione Recensioni -->
     <div class="container mt-5">
         <h2>Recensioni</h2>
-
         <div class="list-group">
             <div class="list-group-item">
                 <h5 class="mb-1">Mario Rossi</h5>
                 <small class="text-muted">⭐⭐⭐⭐⭐</small>
                 <p class="mb-1">Ottimo prodotto! Qualità eccellente e consegna veloce. Lo consiglio a tutti!</p>
             </div>
-
             <div class="list-group-item">
                 <h5 class="mb-1">Laura Bianchi</h5>
                 <small class="text-muted">⭐⭐⭐⭐</small>
                 <p class="mb-1">Buon prodotto, ma la confezione era leggermente danneggiata all’arrivo.</p>
             </div>
-
             <div class="list-group-item">
                 <h5 class="mb-1">Giovanni Verdi</h5>
                 <small class="text-muted">⭐⭐⭐⭐⭐</small>
@@ -135,7 +150,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
         </div>
     </div>
-
 </div>
 
 <?php
