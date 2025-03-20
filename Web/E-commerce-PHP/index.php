@@ -5,7 +5,7 @@ $conf = require 'Structure/db_conf.php';
 $db = DbConn::getDb($conf);
 require "Structure/header.php";
 
-// Seleziona 3 prodotti casuali dal database
+// Seleziona 3 prodotti casuali dal database per i prodotti del giorno
 $query = "SELECT codice, titolo AS name, prezzo, immagine AS image FROM prodotti ORDER BY RAND() LIMIT 3";
 $stm = $db->prepare($query);
 $stm->execute();
@@ -13,7 +13,7 @@ $prodotti = $stm->fetchAll(PDO::FETCH_OBJ);
 ?>
 
 
-    <!-- Hero Section -->
+
     <div class="bg-body-tertiary text-center p-5 rounded-3">
         <h1 class="text-danger"><strong>E-COMMERCE</strong></h1>
         <p class="lead">Trova i migliori prodotti al miglior prezzo.</p>

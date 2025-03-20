@@ -9,16 +9,17 @@ $db = DbConn::getDb($conf);
 $error = "";
 $message = "";
 
+//prendo dati dal form
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $username = trim($_POST['username']);
     $password = $_POST['password'];
     $password_confirm = $_POST['password_confirm'];
 
-    // Controlla se le password coincidono
+    // Controllo se le password coincidono
     if ($password !== $password_confirm) {
         $error = "Le password non coincidono.";
     } else {
-        // Verifica se l'utente esiste già
+        // guardo se c'è già utente
         $query = "SELECT username FROM utenti WHERE username = :username";
         $stm = $db->prepare($query);
         $stm->bindParam(':username', $username, PDO::PARAM_STR);
@@ -27,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         if ($stm->fetch(PDO::FETCH_OBJ)) {
             $error = "Utente già esistente.";
         } else {
-            // Inserisce il nuovo utente con la password hashata
+            // nuovo utente con la password hashata
             $hash = password_hash($password, PASSWORD_DEFAULT);
             try {
                 $query_insert = "INSERT INTO utenti (username, password) VALUES (:username, :password)";

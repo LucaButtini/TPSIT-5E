@@ -1,5 +1,5 @@
 <?php
-session_start();
+session_start();//sessione
 $title = 'Login';
 require '../Structure/DbConn.php';
 
@@ -8,11 +8,12 @@ $db = DbConn::getDb($conf);
 
 $error = "";
 
+//prendo dati dal form
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $username = trim($_POST['username']);
     $password = $_POST['password'];
 
-    // Query per ottenere i dati dell'utente dalla tabella "utenti"
+    //  dati dell'utente dalla tabella "utenti"
     $query = "SELECT username, password FROM utenti WHERE username = :username";
     $stm = $db->prepare($query);
     $stm->bindParam(':username', $username, PDO::PARAM_STR);
