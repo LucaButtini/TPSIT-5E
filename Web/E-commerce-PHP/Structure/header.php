@@ -15,7 +15,7 @@ $page = substr($_SERVER["SCRIPT_NAME"],strrpos($_SERVER["SCRIPT_NAME"],"/")+1);
 
     <title><?=/**@var $title*/ $title?></title>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
 
 <nav class="navbar navbar-expand-lg bg-dark navbar-dark sticky-top py-3">
     <div class="container-fluid">
@@ -39,4 +39,4 @@ $page = substr($_SERVER["SCRIPT_NAME"],strrpos($_SERVER["SCRIPT_NAME"],"/")+1);
         </div>
     </div>
 </nav>
-
+<div class="container mt-5 flex-grow-1">

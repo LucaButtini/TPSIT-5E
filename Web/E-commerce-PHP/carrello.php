@@ -5,10 +5,34 @@ require 'Structure/DbConn.php';
 $conf = require 'Structure/db_conf.php';
 $db = DbConn::getDB($conf);
 
+// Se è stata inviata una richiesta di rimozione, la gestiamo subito
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove'])) {
+    $codice_da_rimuovere = $_POST['remove'];
+
+    // Recupera il carrello attivo per l'utente
+    $query_carrello = "SELECT id FROM carrello WHERE data_creazione = CURDATE() OR utente = :utente";
+    $stm = $db->prepare($query_carrello);
+    $utente = 'guest'; // Sostituisci con l'username autenticato se disponibile
+    $stm->bindParam(':utente', $utente, PDO::PARAM_STR);
+    $stm->execute();
+    $carrello = $stm->fetch(PDO::FETCH_OBJ);
+
+    if ($carrello) {
+        // Rimuove il prodotto dal carrello
+        $query_remove = "DELETE FROM ordini WHERE id_carrello = :carrello_id AND prodotto = :codice_prodotto";
+        $stm = $db->prepare($query_remove);
+        $stm->bindParam(':carrello_id', $carrello->id, PDO::PARAM_INT);
+        $stm->bindParam(':codice_prodotto', $codice_da_rimuovere, PDO::PARAM_STR);
+        $stm->execute();
+
+        $message = "Prodotto rimosso dal carrello.";
+    }
+}
+
 // Recupera il carrello attivo per l'utente
 $query_carrello = "SELECT id FROM carrello WHERE data_creazione = CURDATE() OR utente = :utente";
 $stm = $db->prepare($query_carrello);
-$utente = 'guest'; // Sostituisci con il nome utente autenticato, se presente
+$utente = 'guest'; // Sostituisci con l'username autenticato se disponibile
 $stm->bindParam(':utente', $utente, PDO::PARAM_STR);
 $stm->execute();
 $carrello = $stm->fetch(PDO::FETCH_OBJ);
@@ -38,8 +62,13 @@ foreach ($prodotti as $prodotto) {
 }
 ?>
 
-<div class="container mt-5 bg-body-tertiary rounded-3 px-5 py-4">
+
     <h1 class="text-center mb-4">Il tuo Carrello</h1>
+
+    <!-- Visualizza messaggio se presente -->
+    <?php if (isset($message)): ?>
+        <div class="alert alert-info text-center"><?= $message ?></div>
+    <?php endif; ?>
 
     <?php if (empty($prodotti)): ?>
         <div class="alert alert-warning">Il tuo carrello è vuoto.</div>
@@ -55,6 +84,11 @@ foreach ($prodotti as $prodotto) {
                 </div>
                 <div class="col-md-4 text-end">
                     <p>€<?= number_format($prodotto->prezzo * $prodotto->quantita, 2, ',', '.') ?></p>
+                    <!-- Form per rimuovere il prodotto dal carrello -->
+                    <form method="POST" action="" style="display:inline;">
+                        <input type="hidden" name="remove" value="<?= $prodotto->prodotto ?>" />
+                        <button type="submit" class="btn btn-danger btn-sm">Rimuovi</button>
+                    </form>
                 </div>
             </div>
         <?php endforeach; ?>
@@ -64,7 +98,6 @@ foreach ($prodotti as $prodotto) {
     <div class="text-end">
         <a href="Structure/confirm.html" class="btn btn-success mt-3">Procedi al Checkout</a>
     </div>
-</div>
 
 <?php
 require "Structure/footer.php";

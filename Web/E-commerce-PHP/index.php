@@ -12,7 +12,7 @@ $stm->execute();
 $prodotti = $stm->fetchAll(PDO::FETCH_OBJ);
 ?>
 
-<div class="container mt-5">
+
     <!-- Hero Section -->
     <div class="bg-body-tertiary text-center p-5 rounded-3">
         <h1 class="text-danger"><strong>E-COMMERCE</strong></h1>
@@ -40,6 +40,6 @@ $prodotti = $stm->fetchAll(PDO::FETCH_OBJ);
         <?php endforeach; ?>
         </div>
     </div>
-</div>
+
 
 <?php require "Structure/footer.php"; ?>

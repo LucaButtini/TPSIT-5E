@@ -1,5 +1,6 @@
+</div>
 <footer>
-    <div class="bg-dark py-5 mt-4 text-center rounded-3">
+    <div class="bg-dark py-5 mt-4 text-center">
         <p class="display-6 mb-2 text-white">Buttini Luca 5-E</p>
         <small class="text-white-50">&copy; 2025 E-Commerce. All rights reserved.</small>
     </div>
