@@ -1,0 +1,88 @@
+<?php
+session_start();
+$title = 'Registrazione';
+require '../Structure/DbConn.php';
+
+$conf=require'../Structure/db_conf.php';
+
+$db = DbConn::getDb($conf);
+
+$error = "";
+$message = "";
+
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    $username = trim($_POST['username']);
+    $password = $_POST['password'];
+    $password_confirm = $_POST['password_confirm'];
+
+    // Controlla se le password coincidono
+    if ($password !== $password_confirm) {
+        $error = "Le password non coincidono.";
+    } else {
+        // Verifica se l'utente esiste già
+        $query = "SELECT username FROM utenti WHERE username = :username";
+        $stm = $db->prepare($query);
+        $stm->bindParam(':username', $username, PDO::PARAM_STR);
+        $stm->execute();
+
+        if ($stm->fetch(PDO::FETCH_OBJ)) {
+            $error = "Utente già esistente.";
+        } else {
+            // Inserisce il nuovo utente con la password hashata
+            $hash = password_hash($password, PASSWORD_DEFAULT);
+            $query_insert = "INSERT INTO utenti (username, password) VALUES (:username, :password)";
+            $stm = $db->prepare($query_insert);
+            $stm->bindParam(':username', $username, PDO::PARAM_STR);
+            $stm->bindParam(':password', $hash, PDO::PARAM_STR);
+
+            if ($stm->execute()) {
+                $message = "Registrazione avvenuta con successo. Puoi ora effettuare il login.";
+            } else {
+                $error = "Errore durante la registrazione.";
+            }
+        }
+    }
+}
+?>
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrazione</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Registrazione</h1>
+
+    <?php if ($error): ?>
+        <div class="alert alert-danger text-center"><?= $error ?></div>
+    <?php endif; ?>
+
+    <?php if ($message): ?>
+        <div class="alert alert-success text-center"><?= $message ?></div>
+    <?php endif; ?>
+
+    <form action="register.php" method="post" class="w-50 mx-auto">
+        <div class="mb-3">
+            <label for="username" class="form-label">Username:</label>
+            <input type="text" name="username" id="username" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password:</label>
+            <input type="password" name="password" id="password" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label for="password_confirm" class="form-label">Conferma Password:</label>
+            <input type="password" name="password_confirm" id="password_confirm" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Registrati</button>
+    </form>
+
+    <div class="text-center mt-3">
+        <a href="login.php">Hai già un account? Effettua il login.</a>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
