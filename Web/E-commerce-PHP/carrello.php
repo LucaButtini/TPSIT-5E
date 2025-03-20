@@ -74,7 +74,7 @@ foreach ($prodotti as $prodotto) {
     <h1 class="text-center mb-4">Il tuo Carrello</h1>
 
     <?php if (isset($message)): ?>
-        <div class="alert alert-info text-center"><?= htmlspecialchars($message) ?></div>
+        <div class="alert alert-info text-center"><?= $message ?></div>
     <?php endif; ?>
 
     <?php if (empty($prodotti)): ?>
@@ -83,17 +83,17 @@ foreach ($prodotti as $prodotto) {
         <?php foreach ($prodotti as $prodotto): ?>
             <div class="row mb-3 align-items-center">
                 <div class="col-md-2">
-                    <img src="<?= htmlspecialchars($prodotto->immagine) ?>" alt="<?= htmlspecialchars($prodotto->titolo) ?>" class="img-fluid">
+                    <img src="<?= $prodotto->immagine ?>" alt="<?= $prodotto->titolo ?>" class="img-fluid">
                 </div>
                 <div class="col-md-6">
-                    <h5><?= htmlspecialchars($prodotto->titolo) ?></h5>
-                    <p>Quantità: <?= htmlspecialchars($prodotto->quantita) ?></p>
+                    <h5><?= $prodotto->titolo ?></h5>
+                    <p>Quantità: <?= $prodotto->quantita ?></p>
                 </div>
                 <div class="col-md-4 text-end">
                     <p>€<?= number_format($prodotto->prezzo * $prodotto->quantita, 2, ',', '.') ?></p>
                     <!-- Form per rimuovere il prodotto dal carrello -->
                     <form method="POST" action="" style="display:inline;">
-                        <input type="hidden" name="remove" value="<?= htmlspecialchars($prodotto->prodotto) ?>" />
+                        <input type="hidden" name="remove" value="<?= $prodotto->prodotto ?>" />
                         <button type="submit" class="btn btn-danger btn-sm">Rimuovi</button>
                     </form>
                 </div>

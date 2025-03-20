@@ -1,24 +1,34 @@
 <?php
+
 $title = 'Prodotto';
 
+// Importa la connessione al database
 require 'Structure/DbConn.php';
+
+
 $conf = require 'Structure/db_conf.php';
+
+
 $db = DbConn::getDB($conf);
+
 
 require "Structure/header.php";
 
-// Recupero il prodotto dal database
+// codice prodotto con richiesta GET
 $codice_prodotto = $_GET['codice'] ?? '';
 
+// se il codice prodotto non è presente, mostra un messaggio di errore e termina lo script
 if (empty($codice_prodotto)) {
     echo "<div class='container mt-5 alert alert-danger'>Codice prodotto mancante.</div>";
     require "Structure/footer.php";
     exit();
 }
 
+// query per prodotto
 $query = "SELECT * FROM prodotti WHERE codice = :codice";
 $stm = $db->prepare($query);
 $stm->bindParam(':codice', $codice_prodotto, PDO::PARAM_STR);
+
 
 if ($stm->execute()) {
     $prodotto = $stm->fetch(PDO::FETCH_OBJ);
@@ -28,42 +38,43 @@ if ($stm->execute()) {
     exit();
 }
 
+// Se il prodotto non viene trovato
 if (!$prodotto) {
     echo "<div class='container mt-5 alert alert-danger'>Prodotto non trovato.</div>";
     require "Structure/footer.php";
     exit();
 }
 
-// Recupero le taglie disponibili per il prodotto
+// Query taglie
 $query_taglie = "SELECT tipo_taglia FROM prodotti_taglie WHERE codice_prodotto = :codice";
 $stm = $db->prepare($query_taglie);
 $stm->bindParam(':codice', $codice_prodotto, PDO::PARAM_STR);
 $stm->execute();
 $taglie = $stm->fetchAll(PDO::FETCH_OBJ);
 
-// Gestione aggiunta al carrello
+// gestione  carrello
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Recupero i dati inviati dal form
+    // Recupera i dati dal form
     $codice_prodotto = $_POST['codice'];
     $quantita = (int) $_POST['quantita'];
-    // Taglia viene inviato solo a scopo visivo, dato che non la gestiamo in questo esempio
 
-    // Step 1: Verifica se esiste un carrello attivo per oggi
+    // verifica se esiste già un carrello attivo per oggi
     $query_carrello = "SELECT id FROM carrello WHERE data_creazione = CURDATE()";
     $stm = $db->prepare($query_carrello);
     $stm->execute();
     $carrello = $stm->fetch(PDO::FETCH_OBJ);
 
     if (!$carrello) {
-        // Crea un nuovo carrello se non esiste
+        // Se non esiste un carrello per oggi, lo crea
         $query_crea_carrello = "INSERT INTO carrello (data_creazione) VALUES (CURDATE())";
         $db->exec($query_crea_carrello);
         $carrello_id = $db->lastInsertId();
     } else {
+        // Usa l'ID del carrello esistente
         $carrello_id = $carrello->id;
     }
 
-    // Step 2: Controlla se il prodotto è già presente nel carrello
+    // guarda se il prodotto è già presente nel carrello
     $query_check = "SELECT quantita FROM ordini WHERE id_carrello = :carrello_id AND prodotto = :codice_prodotto";
     $stm = $db->prepare($query_check);
     $stm->bindParam(':carrello_id', $carrello_id, PDO::PARAM_INT);
@@ -72,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $existing = $stm->fetch(PDO::FETCH_OBJ);
 
     if ($existing) {
-        // Aggiorna la quantità sommando quella inviata
+        // Se il prodotto è già nel carrello, aggiorna la quantità
         $new_quantita = $existing->quantita + $quantita;
         $query_update = "UPDATE ordini SET quantita = :new_quantita WHERE id_carrello = :carrello_id AND prodotto = :codice_prodotto";
         $stm = $db->prepare($query_update);
@@ -81,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stm->bindParam(':codice_prodotto', $codice_prodotto, PDO::PARAM_STR);
         $stm->execute();
     } else {
-        // Inserisce il nuovo prodotto con la quantità specificata
+        // Se il prodotto non è nel carrello, lo aggiunge
         $query_insert = "INSERT INTO ordini (id_carrello, prodotto, quantita) VALUES (:carrello_id, :codice_prodotto, :quantita)";
         $stm = $db->prepare($query_insert);
         $stm->bindParam(':carrello_id', $carrello_id, PDO::PARAM_INT);
@@ -90,6 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stm->execute();
     }
 
+    // Mostra un messaggio di conferma o errore
     if ($stm->rowCount() > 0) {
         echo "<div class='container mt-5 alert alert-success text-center fw-bold'>Prodotto aggiunto al carrello!</div>";
     } else {
@@ -98,6 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 }
 ?>
 
+<!-- Mostra i dettagli del prodotto -->
 <div class="container mt-5 bg-body-tertiary rounded-3 px-5 py-4">
     <div class="row">
         <div class="col-md-6 text-center">
@@ -109,9 +122,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <h2 id="product-price" class="text-success">€<?= number_format($prodotto->prezzo, 2, ',', '.') ?></h2>
             <p class="lead"><?= $prodotto->descrizione ?></p>
 
-            <!-- Form per l'aggiunta al carrello -->
+            <!-- Form per aggiungere il prodotto al carrello -->
             <form method="POST" action="prodotto.php?codice=<?= $prodotto->codice ?>" class="mt-3">
-                <!-- Selettore della Taglia (solo a scopo visivo) -->
                 <label for="taglia">Taglia:</label>
                 <select id="taglia" name="taglia" class="form-control w-50 mb-3">
                     <?php foreach ($taglie as $taglia): ?>
@@ -119,7 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <?php endforeach; ?>
                 </select>
 
-                <!-- Selettore della Quantità -->
+                <!-- Input per selezionare la quantità -->
                 <label for="quantita">Quantità:</label>
                 <input type="number" id="quantita" name="quantita" value="1" min="1" class="form-control w-25 mb-3">
 
@@ -129,7 +141,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     </div>
 
-    <!-- Sezione Recensioni -->
+    <!-- Sezione recensioni -->
     <div class="container mt-5">
         <h2>Recensioni</h2>
         <div class="list-group">
@@ -143,15 +155,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <small class="text-muted">⭐⭐⭐⭐</small>
                 <p class="mb-1">Buon prodotto, ma la confezione era leggermente danneggiata all’arrivo.</p>
             </div>
-            <div class="list-group-item">
-                <h5 class="mb-1">Giovanni Verdi</h5>
-                <small class="text-muted">⭐⭐⭐⭐⭐</small>
-                <p class="mb-1">Perfetto! Esattamente come descritto, sono molto soddisfatto dell'acquisto.</p>
-            </div>
         </div>
     </div>
 </div>
 
 <?php
+// Importa il footer della pagina
 require "Structure/footer.php";
 ?>

@@ -20,6 +20,7 @@
       </list>
     </option>
   </component>
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="C:\xampp\php\php.exe" />
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 4
 }</component>
@@ -33,7 +34,7 @@
     "DefaultHtmlFileTemplate": "HTML File",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "C:/xampp/htdocs/Info-5E",
+    "last_opened_file_path": "C:/xampp/htdocs/E-commerce-PHP",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -63,6 +64,8 @@
       <workItem from="1741896077828" duration="3066000" />
       <workItem from="1742310030710" duration="18000" />
       <workItem from="1742310055987" duration="7006000" />
+      <workItem from="1742480378859" duration="8000" />
+      <workItem from="1742480390922" duration="1003000" />
     </task>
     <servers />
   </component>
