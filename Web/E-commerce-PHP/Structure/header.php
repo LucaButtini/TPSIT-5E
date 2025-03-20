@@ -38,14 +38,12 @@ $page = basename($_SERVER["SCRIPT_NAME"]);
                 </li>
             </ul>
 
-            <?php if (isset($_SESSION['user_nome'])): ?>
+            <?php if (isset($_SESSION['username'])): ?>
                 <div class="dropdown">
                     <button class="btn btn-light dropdown-toggle" type="button" id="userMenu" data-bs-toggle="dropdown">
-                        <i class="bi bi-person-circle"></i> <?= htmlspecialchars($_SESSION['user_nome']) ?>
+                        <i class="bi bi-person-circle"></i> <?= htmlspecialchars($_SESSION['username']) ?>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="Login/impostazioni.php"><i class="bi bi-gear-fill"></i> Impostazioni</a></li>
-                        <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item text-danger" href="Login/logout.php"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
                     </ul>
                 </div>

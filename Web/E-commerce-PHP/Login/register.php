@@ -3,8 +3,7 @@ session_start();
 $title = 'Registrazione';
 require '../Structure/DbConn.php';
 
-$conf=require'../Structure/db_conf.php';
-
+$conf = require'../Structure/db_conf.php';
 $db = DbConn::getDb($conf);
 
 $error = "";
@@ -30,15 +29,19 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         } else {
             // Inserisce il nuovo utente con la password hashata
             $hash = password_hash($password, PASSWORD_DEFAULT);
-            $query_insert = "INSERT INTO utenti (username, password) VALUES (:username, :password)";
-            $stm = $db->prepare($query_insert);
-            $stm->bindParam(':username', $username, PDO::PARAM_STR);
-            $stm->bindParam(':password', $hash, PDO::PARAM_STR);
+            try {
+                $query_insert = "INSERT INTO utenti (username, password) VALUES (:username, :password)";
+                $stm = $db->prepare($query_insert);
+                $stm->bindParam(':username', $username, PDO::PARAM_STR);
+                $stm->bindParam(':password', $hash, PDO::PARAM_STR);
 
-            if ($stm->execute()) {
-                $message = "Registrazione avvenuta con successo. Puoi ora effettuare il login.";
-            } else {
-                $error = "Errore durante la registrazione.";
+                if ($stm->execute()) {
+                    $message = "Registrazione avvenuta con successo. Puoi ora effettuare il login.";
+                } else {
+                    $error = "Errore durante la registrazione.";
+                }
+            } catch (PDOException $e) {
+                $error = "Errore di connessione al database: " . $e->getMessage();
             }
         }
     }

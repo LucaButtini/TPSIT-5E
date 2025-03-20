@@ -3,8 +3,7 @@ session_start();
 $title = 'Login';
 require '../Structure/DbConn.php';
 
-$conf=require'../Structure/db_conf.php';
-
+$conf = require'../Structure/db_conf.php';
 $db = DbConn::getDb($conf);
 
 $error = "";
@@ -23,6 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if ($user) {
         // Verifica della password hashata
         if (password_verify($password, $user->password)) {
+            session_regenerate_id(true); // Rigenera l'ID della sessione per maggiore sicurezza
             $_SESSION['username'] = $user->username;
             header("Location: ../index.php");
             exit();
